@@ -14,7 +14,8 @@ var MongoClient = require('mongodb').MongoClient;
 var clients = [ ];
 var cusers = [ ];
 
-
+console.log('Our IP to use is ' + process.env.IP + ' or ' + process.env.OPENSHIFT_NODEJS_IP);
+console.log('Our port to use is ' + process.env.PORT + ' or ' + process.env.OPENSHIFT_NODEJS_PORT);
 /**
  * HTTP server
  */
