@@ -1,4 +1,3 @@
-"use strict";
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'trserver';
 // Port where we'll run the websocket server
