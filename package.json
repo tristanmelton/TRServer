@@ -1,0 +1,4 @@
+"scripts": {
+  "start": "server.js"
+},
+"main": "server.js"
