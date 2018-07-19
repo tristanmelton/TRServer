@@ -13,10 +13,10 @@ http.listen(8080, function()
 });
 io.on('connection', function(socket)
 {
-	console.log('a user connected');
+	console.log(socket.id + ' connected');
 	socket.on('disconnect', function()
 	{
-		console.log('user disconnected');
+		console.log(socket.id + ' disconnected');
 	});
 	socket.on('enterqueue', function(msg)
 	{
