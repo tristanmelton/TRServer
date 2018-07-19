@@ -18,9 +18,9 @@ io.on('connection', function(socket)
 	{
 		console.log('user disconnected');
 	});
-	socket.on('chat message', function(msg)
+	socket.on('enterqueue', function(msg)
 	{
-		console.log('message: ' + msg);
+		console.log(socket.id + ' joined queue with name and role ' + msg);
 	});
 
 });
