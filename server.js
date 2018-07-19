@@ -1,16 +1,20 @@
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'trserver';
 // Port where we'll run the websocket server
-var webSocketsServerPort = 8080;
+var webSocketsServerPort = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var webSocketIP = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 // websocket and http servers
 var webSocketServer = require('websocket').server;
 var http = require('http');
+var MongoClient = require('mongodb').MongoClient;
 /**
  * Global variables
  */
 // list of currently connected clients (users)
 var clients = [ ];
 var cusers = [ ];
+
+
 /**
  * HTTP server
  */
