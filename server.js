@@ -1,7 +1,7 @@
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'trserver';
 // Port where we'll run the websocket server
-var webSocketsServerPort = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var webSocketsServerPort = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8000;
 var webSocketIP = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 // websocket and http servers
 var webSocketServer = require('websocket').server;
