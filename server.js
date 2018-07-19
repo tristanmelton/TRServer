@@ -1,21 +1,17 @@
+"use strict";
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'trserver';
 // Port where we'll run the websocket server
-var webSocketsServerPort = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var webSocketIP = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var webSocketsServerPort = 8080;
 // websocket and http servers
 var webSocketServer = require('websocket').server;
 var http = require('http');
-var MongoClient = require('mongodb').MongoClient;
 /**
  * Global variables
  */
 // list of currently connected clients (users)
 var clients = [ ];
 var cusers = [ ];
-
-console.log('Our IP to use is ' + process.env.IP + ' or ' + process.env.OPENSHIFT_NODEJS_IP);
-console.log('Our port to use is ' + process.env.PORT + ' or ' + process.env.OPENSHIFT_NODEJS_PORT);
 /**
  * HTTP server
  */
@@ -24,7 +20,7 @@ var server = http.createServer(function(request, response)
   // Not important for us. We're writing WebSocket server,
   // not HTTP server
 });
-server.listen(webSocketsServerPort, webSocketIP, function() 
+server.listen(webSocketsServerPort, "0.0.0.0", function() 
 {
 	console.log((new Date()) + " Server is listening on port "
       + webSocketsServerPort);
@@ -48,7 +44,7 @@ wsServer.on('request', function(request)
 	// accept connection - you should check 'request.origin' to
 	// make sure that client is connecting from your website
 	// (http://en.wikipedia.org/wiki/Same_origin_policy)
-	var connection = request.accept(null, request.origin); 
+	var connection = request.accept('echo-protocol', request.origin); 
 	// we need to know client index to remove them on 'close' event
 	var index = clients.push(connection) - 1;
 
@@ -91,4 +87,12 @@ wsServer.on('request', function(request)
 		cusers.splice(index, 1);
 		}
 	});
+	
+        connection.onerror = function(evt)
+        {
+            if (connection.readyState == 1)
+            {
+                window.alert('ws normal error: ' + evt.type);
+            }
+        };
 });
