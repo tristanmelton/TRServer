@@ -1,4 +1,9 @@
 {  
+	"name":"TR Queue Server"
     "start":"server.js",
     "main":"server.js"
+	"dependencies": 
+	{
+		"websocket":"^1.0.26"
+	}
 }
