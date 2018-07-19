@@ -1,5 +1,4 @@
 {  
-	"name":"TR Queue Server",
     "start":"server.js",
     "main":"server.js",
 	"dependencies": 
