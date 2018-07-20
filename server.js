@@ -69,6 +69,10 @@ io.on('connection', function(socket)
 		else
 			socket.emit("error", "You are already in queue or chose an invalid role!");
 	});
+	socket.on('error', function(err) 
+	{
+		console.log(err);
+	});
 
 });
 //Helper function
