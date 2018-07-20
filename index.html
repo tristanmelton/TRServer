@@ -12,11 +12,16 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+	var minutesLabel = document.getElementById("minutes");
+	var secondsLabel = document.getElementById("seconds");
+	var name = "";
+	var role = "";
+	var totalSeconds = 0;
 	var socket = io();
 	function manipQueue()
 	{
 	}
-	$('queueform').submit(function()
+	$('form').submit(function()
 	{
 		socket.emit('chat message', $('#m').val());
 		$('#m').val('');
