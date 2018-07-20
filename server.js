@@ -109,14 +109,15 @@ io.on('connection', function(socket)
 			socket.emit('inqueue', "");
 			console.log('Already in queue!!!');
 		}
-		console.log(tops.length);
 	});
 	socket.on('exitqueue', function(msg)
 	{
 		var splitted = msg.split(" ");
+		console.log(splitted[0] + ' wants to leave the queue.');
 		if(splitted[1] === "Tops")
 		{
 			var index = tops.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			console.log(index);
 			if(index != -1)
 				tops.splice(index, 1);
 			else

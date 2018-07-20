@@ -53,7 +53,7 @@
 	});
 	socket.on('nqueue', function(msg)
 	{
-		window.alert("You aren't in queue!");
+		window.alert(msg);
 	});
 
 </script>
@@ -70,7 +70,7 @@
 		</select>
 	</p>
 	<p><button type="button" onclick="senddata(); return false;" name="queue">Queue Up!</button>
-		<button type="submit" name="exitqueue" onclick="exitqueue(); return false;">Exit Queue</button>
+		<button type="button" name="exitqueue" onclick="exitqueue(); return false;">Exit Queue</button>
     </p>
   <p>Click queue up when you are ready!</p>
   <font size="8" id="qtxt" color="red"></font>
