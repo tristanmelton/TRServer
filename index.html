@@ -20,8 +20,11 @@
 	var socket = io();
 	$('queueform').submit(function()
 	{
-		socket.emit('chat message', $('#m').val());
-		$('#m').val('');
+        name = document.getElementById("sname").value;
+        role = document.getElementById("rolelist").value;
+		socket.emit('enterqueue', name + " " + role);
+		setTiming();
+		
 		return false;
 	});
 	socket.on('error', function(msg)
