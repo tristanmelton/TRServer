@@ -9,6 +9,33 @@ var mids = [];
 var adcs = [];
 var supports = [];
 
+var gameMaker = setInterval(function() {
+	if(tops.length > 1 && jungles.length > 1 && mids.length > 1 && adcs.length > 1 && supports.length > 1)
+	{
+		tops = shuffle(tops);
+		jungles = shuffle(jungles);
+		mids = shuffle(mids);
+		bots = shuffle(bots);
+		supports = shuffle(supports);
+		var red = tops[0].name + ", " + jungles[0].name + ", " + mids[0].name + ", " + bots[0].name + ", " + supports[0].name;
+		var blue = tops[1].name + ", " + jungles[1].name + ", " + mids[1].name + ", " + bots[0].name + ", " + supports[1].name;
+		for(var i = 0; i < 2; i++)
+		{
+			tops[i].socket.emit("teams", red + ":" + blue);
+			jungles[i].socket.emit("teams", red + ":" + blue);
+			mids[i].socket.emit("teams", red + ":" + blue);
+			bots[i].socket.emit("teams", red + ":" + blue);
+			supports[i].socket.emit("teams", red + ":" + blue);
+		}
+		tops.splice(0, 2);
+		jungles.splice(0, 2);
+		mids.splice(0, 2);
+		bots.splice(0, 2);
+		supports.splice(0, 2);
+	}
+}, 15*1000);
+
+
 app.get('/', function(req, res)
 {
   res.sendFile(__dirname + '/index.html');
@@ -30,18 +57,37 @@ io.on('connection', function(socket)
 		console.log(socket.id + ' joined queue with name and role ' + msg);
 		var splitted = msg.split(" ");
 		if(splitted[1] === "Tops" && tops.indexOf(splitted[0]) > -1)
-			tops.push(splitted[0]);
+			tops.push({"name": splitted[0], "socket": socket});
 		else if(splitted[1] === "Jungles" && jungles.indexOf(splitted[0]) > -1)
-			jungles.push(splitted[0]);
+			jungles.push({"name": splitted[0], "socket": socket});
 		else if(splitted[1] === "Mids" && mids.indexOf(splitted[0]) > -1)
-			mids.push(splitted[0]);
+			mids.push({"name": splitted[0], "socket": socket});
 		else if(splitted[1] === "Bots" && bots.indexOf(splitted[0]) > -1)
-			bots.push(splitted[0]);
-		else if (splitted[1] === "Supports" && supports.indexOf(splitted[0] > -1)
-			supports.push(splitted[0]);
+			bots.push({"name": splitted[0], "socket": socket});
+		else if (splitted[1] === "Supports" && supports.indexOf(splitted[0]) > -1)
+			supports.push({"name": splitted[0], "socket": socket});
 		else
 			socket.emit("error", "You are already in queue or chose an invalid role!");
 	});
 
 });
+//Helper function
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
