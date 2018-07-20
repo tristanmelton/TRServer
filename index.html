@@ -37,7 +37,7 @@
 		var teams = msg.split(":");
 		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
     });
-	sockets.on('inqueue', function(msg)
+	socket.on('inqueue', function(msg)
 	{
 		window.alert("You are already in queue!");
 	});
