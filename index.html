@@ -12,35 +12,18 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-$(function () 
-{
-	var minutesLabel = document.getElementById("minutes");
-	var secondsLabel = document.getElementById("seconds");
-	var name = "";
-	var role = "";
-	var totalSeconds = 0;
 	var socket = io();
-	
-	$('queueform').submit(function()
+	function manipQueue()
 	{
-        name = document.getElementById("sname").value;
-        role = document.getElementById("rolelist").value;
-		socket.emit('enterqueue', name + " " + role);
-		setTiming();
-		
-		return false;
-	});
-	socket.on('error', function(msg)
-	{
-		window.alert(msg);
-    });
-	socket.on('teams', function(msg)
-	{
-		var teams = msg.split(":");
-		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
-    });
+		$('form').submit(function()
+		{
+			socket.emit('chat message', $('#m').val());
+			$('#m').val('');
+			return false;
+		});
+	}
 
-});
+
 </script>
 
 	<form id="queueform">
@@ -55,12 +38,102 @@ $(function ()
 		</select>
 	</p>
 	<p><button type="submit" form="queueform" name="queue" onclick="manipQueue()">Queue Up!</button>
-		<button type="submit" name="exitqueue" onclick="queueinfo('exitqueue.php')">Exit Queue</button>
+		<button type="submit" form="queueform" name="exitqueue" onclick="queueinfo('exitqueue.php')">Exit Queue</button>
     </p>
   <p>Click queue up when you are ready!</p>
   <font size="8" id="qtxt" color="red"></font>
   <font size="8" color="red" id="minutes">00</font><font size="8" color="red">:</font><font size="8" color="red" id="seconds">00</font>
 <script>
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+
+function manipQueue()
+{
+        setTiming();
+        /*var redteam = "";
+        var blueteam = "";
+
+       // if user is running mozilla then use it's built-in WebSocket
+        window.alert("Start");
+        // open connection
+		window.WebSocket = window.WebSocket || window.MozWebSocket;
+		// if browser doesn't support WebSocket, just show
+		// some notification and exit
+		if(window.WebSocket)
+		{
+			alert("Websocket is enabled!");
+		}
+		if (!window.WebSocket) 
+		{
+			alert('Sorry, but your browser doesn\'t support WebSocket.');
+			return;
+		}
+  // open connection
+		var connection = new WebSocket('ws://server:8080/');      
+		connection.onopen = function () 
+        {
+            window.alert("Connected!");
+            var name = document.getElementById("sname").value;
+            var role = document.getElementById("rolelist").value;
+            connection.send("iconn " + name + " " + role);
+            // first we want users to enter their names
+            connection.onerror = function (error)
+            {
+                // just in there were some problems with connection...
+                alert('Sorry, but there\'s some problem with your connection or the server is down.');
+            };
+        };
+
+        // most important part - incoming messages
+        connection.onmessage = function (message) 
+        {
+            // try to parse JSON message. Because we know that the server
+            // always returns JSON this should work without any problem but
+            // we should make sure that the massage is not chunked or
+            // otherwise damaged.
+            var json;
+            try
+            {
+                json = JSON.parse(message.data);
+            } 
+            catch (e) 
+            {
+                console.log('Invalid JSON: ', message.data);
+                return;
+            }
+            // NOTE: if you're not sure about the JSON structure
+            // check the server source code above
+            // first response from the server with user's color
+            if (json.type === 'red') 
+            { 
+                redteam = json.data;
+                // from now user can start sending messages
+            }
+            else if (json.type === 'blue') 
+            {
+                // entire message history
+                // insert every single message to the chat window
+                blueteam=json.data;
+            } 
+            else if (json.type === 'message') 
+            { 
+                // it's a single message
+                // let the user write another message
+            } 
+            else 
+            {
+                console.log('Hmm..., I\'ve never seen JSON like this:', json);
+            }
+        };
+        connection.onerror = function(evt)
+        {
+            if (connection.readyState == 1)
+            {
+                window.alert('ws normal error: ' + evt.type);
+            }
+        };*/
+}
 function setTiming()
 {
     setInterval(setTime, 1000);
@@ -92,6 +165,8 @@ function pad(val)
         return valString;
     }
 }
+
+
 </script>
 </body>
 </html>
