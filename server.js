@@ -85,7 +85,6 @@ io.on('connection', function(socket)
 					supports.splice(index, 1);
 			}
 		}
-		console.log(tops.length);
 		console.log('user disconnected');
 	});
 	socket.on('enterqueue', function(msg)
@@ -118,7 +117,6 @@ io.on('connection', function(socket)
 		if(splitted[1] === "Tops")
 		{
 			var index = tops.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			console.log(index);
 			if(index != -1)
 				tops.splice(index, 1);
 			else
