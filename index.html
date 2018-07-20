@@ -12,17 +12,35 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+$(function () 
+{
+	var minutesLabel = document.getElementById("minutes");
+	var secondsLabel = document.getElementById("seconds");
+	var name = "";
+	var role = "";
+	var totalSeconds = 0;
 	var socket = io();
-	function manipQueue()
+	
+	$('queueform').submit(function()
 	{
-		$('form').submit(function()
-		{
-			socket.emit('chat message', $('#m').val());
-			$('#m').val('');
-			return false;
-		});
-	}
+        name = document.getElementById("sname").value;
+        role = document.getElementById("rolelist").value;
+		socket.emit('enterqueue', name + " " + role);
+		setTiming();
+		
+		return false;
+	});
+	socket.on('error', function(msg)
+	{
+		window.alert(msg);
+    });
+	socket.on('teams', function(msg)
+	{
+		var teams = msg.split(":");
+		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
+    });
 
+});
 
 </script>
 
