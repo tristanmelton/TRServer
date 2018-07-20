@@ -54,8 +54,10 @@ io.on('connection', function(socket)
 	});
 	socket.on('enterqueue', function(msg)
 	{
-		console.log('user joined queue with name and role ' + msg);
 		var splitted = msg.split(" ");
+		console.log(splitted[0] + 'joined the queue with role ' + splitted[1]);
+		
+		console.log(tops.indexOf(splitted[0]));
 		if(splitted[1] === "Tops" && tops.indexOf(splitted[0]) > -1)
 			tops.push({"name": splitted[0], "socket": socket});
 		else if(splitted[1] === "Jungles" && jungles.indexOf(splitted[0]) > -1)
