@@ -14,23 +14,23 @@
 <script>
 $(function () 
 {
-	var minutesLabel = document.getElementById("minutes");
+	var socket = io();
+	/*var minutesLabel = document.getElementById("minutes");
 	var secondsLabel = document.getElementById("seconds");
 	var name = "";
 	var role = "";
-	var totalSeconds = 0;
-	var socket = io();
+	var totalSeconds = 0;*/
 	
 	$('queueform').submit(function()
 	{
         name = document.getElementById("sname").value;
         role = document.getElementById("rolelist").value;
 		socket.emit('enterqueue', name + " " + role);
-		setTiming();
+		//setTiming();
 		
 		return false;
 	});
-	socket.on('error', function(msg)
+	/*socket.on('error', function(msg)
 	{
 		window.alert(msg);
     });
@@ -38,7 +38,7 @@ $(function ()
 	{
 		var teams = msg.split(":");
 		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
-    });
+    });*/
 
 });
 
