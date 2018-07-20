@@ -6,7 +6,7 @@ var io = require('socket.io')(http);
 var tops = [];
 var jungles = [];
 var mids = [];
-var adcs = [];
+var bots = [];
 var supports = [];
 
 var gameMaker = setInterval(function() {
