@@ -18,7 +18,7 @@ var gameMaker = setInterval(function() {
 		bots = shuffle(bots);
 		supports = shuffle(supports);
 		var red = tops[0].name + ", " + jungles[0].name + ", " + mids[0].name + ", " + bots[0].name + ", " + supports[0].name;
-		var blue = tops[1].name + ", " + jungles[1].name + ", " + mids[1].name + ", " + bots[0].name + ", " + supports[1].name;
+		var blue = tops[1].name + ", " + jungles[1].name + ", " + mids[1].name + ", " + bots[1].name + ", " + supports[1].name;
 		for(var i = 0; i < 2; i++)
 		{
 			tops[i].socket.emit("teams", red + ":" + blue);
@@ -47,26 +47,63 @@ http.listen(8080, function()
 });
 io.on('connection', function(socket)
 {
+	var name = "";
+	var role = "";
 	console.log('user connected');
 	socket.on('disconnect', function()
 	{
+		if(name != "" && role != "")
+		{
+			if(role === "Tops")
+			{
+				var index = tops.map(function(e) {return e.name;}).indexOf(name);
+				if(index != -1)
+					tops.splice(index, 1);
+			}
+			else if(splitted[1] === "Jungles")
+			{
+				var index = jungles.map(function(e) {return e.name;}).indexOf(name);
+				if(index != -1)
+					jungles.splice(index, 1);
+			}
+			else if(splitted[1] === "Mids")
+			{
+				var index = mids.map(function(e) {return e.name;}).indexOf(name);
+				if(index != -1)
+					mids.splice(index, 1);
+			}
+			else if(splitted[1] === "Bots")
+			{
+				var index = bots.map(function(e) {return e.name;}).indexOf(name);
+				if(index != -1)
+					bots.splice(index, 1);
+			}
+			else if(splitted[1] === "Supports")
+			{
+				var index = supports.map(function(e) {return e.name;}).indexOf(name);
+				if(index != -1)
+					supports.splice(index, 1);
+			}
+		}
 		console.log('user disconnected');
 	});
 	socket.on('enterqueue', function(msg)
 	{
 		var splitted = msg.split(" ");
-		console.log(splitted[0] + ' wants to join the queue with role ' + splitted[1]);
+		name = splitted[0];
+		role = splitted[1];
+		console.log(name + ' wants to join the queue with role ' + role);
 		
-		if(splitted[1] === "Tops" && tops.map(function(e) {return e.name;}).indexOf(splitted[0]) === -1)
-			tops.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Jungles" && jungles.map(function(e) {return e.name;}).indexOf(splitted[0]) === -1)
-			jungles.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Mids" && mids.map(function(e) {return e.name;}).indexOf(splitted[0]) === -1)
-			mids.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Bots" && bots.map(function(e) {return e.name;}).indexOf(splitted[0]) === -1)
-			bots.push({"name": splitted[0], "socket": socket});
-		else if (splitted[1] === "Supports" && supports.map(function(e) {return e.name;}).indexOf(splitted[0]) === -1)
-			supports.push({"name": splitted[0], "socket": socket});
+		if(role === "Tops" && tops.map(function(e) {return e.name;}).indexOf(name) === -1)
+			tops.push({"name": name, "socket": socket});
+		else if(role === "Jungles" && jungles.map(function(e) {return e.name;}).indexOf(name) === -1)
+			jungles.push({"name": name, "socket": socket});
+		else if(role === "Mids" && mids.map(function(e) {return e.name;}).indexOf(name) === -1)
+			mids.push({"name": name, "socket": socket});
+		else if(role === "Bots" && bots.map(function(e) {return e.name;}).indexOf(name) === -1)
+			bots.push({"name": name, "socket": socket});
+		else if (role === "Supports" && supports.map(function(e) {return e.name;}).indexOf(name) === -1)
+			supports.push({"name": name, "socket": socket});
 		else
 		{
 			socket.emit('inqueue', "");
@@ -80,7 +117,7 @@ io.on('connection', function(socket)
 		if(splitted[1] === "Tops")
 		{
 			var index = tops.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			if(index !== -1)
+			if(index != -1)
 				tops.splice(index, 1);
 			else
 				socket.emit('nqueue', "You aren't in queue!");
@@ -88,7 +125,7 @@ io.on('connection', function(socket)
 		else if(splitted[1] === "Jungles")
 		{
 			var index = jungles.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			if(index !== -1)
+			if(index != -1)
 				jungles.splice(index, 1);
 			else
 				socket.emit('nqueue', "You aren't in queue!");
@@ -96,7 +133,7 @@ io.on('connection', function(socket)
 		else if(splitted[1] === "Mids")
 		{
 			var index = mids.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			if(index !== -1)
+			if(index != -1)
 				mids.splice(index, 1);
 			else
 				socket.emit('nqueue', "You aren't in queue!");
@@ -104,7 +141,7 @@ io.on('connection', function(socket)
 		else if(splitted[1] === "Bots")
 		{
 			var index = bots.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			if(index !== -1)
+			if(index != -1)
 				bots.splice(index, 1);
 			else
 				socket.emit('nqueue', "You aren't in queue!");
@@ -112,7 +149,7 @@ io.on('connection', function(socket)
 		else if(splitted[1] === "Supports")
 		{
 			var index = supports.map(function(e) {return e.name;}).indexOf(splitted[0]);
-			if(index !== -1)
+			if(index != -1)
 				supports.splice(index, 1);
 			else
 				socket.emit('nqueue', "You aren't in queue!");
