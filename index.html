@@ -54,8 +54,8 @@
 			<option value="Supports">Support</option>
 		</select>
 	</p>
-	<p><button type="submit" form="queueform" onclick="return senddata()" name="queue">Queue Up!</button>
-		<button type="submit" name="exitqueue" onclick="queueinfo('exitqueue.php')">Exit Queue</button>
+	<p><button form="queueform" onclick="senddata(); return false;" name="queue">Queue Up!</button>
+		<button type="submit" name="exitqueue" onclick="queueinfo('exitqueue.php'); return false;">Exit Queue</button>
     </p>
   <p>Click queue up when you are ready!</p>
   <font size="8" id="qtxt" color="red"></font>
@@ -78,6 +78,7 @@ function queueInfo(action)
     form.action = action;
     
     form.submit();
+	return false;
 }
 function setTime()
 {
