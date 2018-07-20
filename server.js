@@ -47,14 +47,14 @@ http.listen(8080, function()
 });
 io.on('connection', function(socket)
 {
-	console.log(socket.id + ' connected');
+	console.log('user connected');
 	socket.on('disconnect', function()
 	{
-		console.log(socket.id + ' disconnected');
+		console.log('user disconnected');
 	});
 	socket.on('enterqueue', function(msg)
 	{
-		console.log(socket.id + ' joined queue with name and role ' + msg);
+		console.log('user joined queue with name and role ' + msg);
 		var splitted = msg.split(" ");
 		if(splitted[1] === "Tops" && tops.indexOf(splitted[0]) > -1)
 			tops.push({"name": splitted[0], "socket": socket});
