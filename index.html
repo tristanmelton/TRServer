@@ -77,6 +77,9 @@
   <font size="8" id="qtxt" color="red"></font>
   <font size="8" color="red" id="minutes">00</font><font size="8" color="red">:</font><font size="8" color="red" id="seconds">00</font>
 <script>
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
 function setTiming()
 {
     keeper = setInterval(setTime, 1000);

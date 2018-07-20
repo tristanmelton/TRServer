@@ -85,6 +85,7 @@ io.on('connection', function(socket)
 					supports.splice(index, 1);
 			}
 		}
+		console.log(tops.length);
 		console.log('user disconnected');
 	});
 	socket.on('enterqueue', function(msg)
