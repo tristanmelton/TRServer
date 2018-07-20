@@ -69,6 +69,7 @@ io.on('connection', function(socket)
 			supports.push({"name": splitted[0], "socket": socket});
 		else
 			socket.emit('inqueue', "");
+		console.log(tops.length);
 	});
 	socket.on('error', function(err) 
 	{
