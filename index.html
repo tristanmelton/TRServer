@@ -20,14 +20,21 @@ $(function ()
 	var role = "";
 	var totalSeconds = 0;
 	var socket = io();
+	
 	$('queueform').submit(function()
 	{
         name = document.getElementById("sname").value;
         role = document.getElementById("rolelist").value;
-		ket.emit('enterqueue', name + " " + role);
+		socket.emit('enterqueue', name + " " + role);
 		setTiming();
+		
 		return false;
 	});
+	socket.on('error', function(msg)
+	{
+		window.alert(msg);
+    });
+
 });
 </script>
 
