@@ -22,13 +22,10 @@
 	{
         name = document.getElementById("sname").value;
         role = document.getElementById("rolelist").value;
-		window.alert(name);
-		window.alert(role);
 		var v = name + " " + role;
 		socket.emit('enterqueue', v);
-		window.alert("Sent packet: " + name + " " + role);
 		setTiming();
-		
+		el = document.getElementById("qtxt").innerHTML = "IN QUEUE FOR: ";
 		return false;
 	}
 	socket.on('error', function(msg)
@@ -40,6 +37,10 @@
 		var teams = msg.split(":");
 		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
     });
+	sockets.on('inqueue', function(msg)
+	{
+		window.alert("You are already in queue!");
+	});
 
 </script>
 

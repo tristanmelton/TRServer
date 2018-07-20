@@ -55,21 +55,20 @@ io.on('connection', function(socket)
 	socket.on('enterqueue', function(msg)
 	{
 		var splitted = msg.split(" ");
-		console.log(splitted[0] + 'joined the queue with role ' + splitted[1]);
+		console.log(splitted[0] + ' joined the queue with role ' + splitted[1]);
 		
-		console.log(tops.indexOf(splitted[0]));
-		if(splitted[1] === "Tops" && tops.indexOf(splitted[0]) === -1)
+		if(splitted[1] === "Tops" && tops.indexOf({"name":splitted[0], "socket": socket}) === -1)
 			tops.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Jungles" && jungles.indexOf(splitted[0]) === -1)
+		else if(splitted[1] === "Jungles" && jungles.indexOf({"name":splitted[0], "socket": socket}) === -1)
 			jungles.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Mids" && mids.indexOf(splitted[0]) === -1)
+		else if(splitted[1] === "Mids" && mids.indexOf({"name":splitted[0], "socket": socket}) === -1)
 			mids.push({"name": splitted[0], "socket": socket});
-		else if(splitted[1] === "Bots" && bots.indexOf(splitted[0]) === -1)
+		else if(splitted[1] === "Bots" && bots.indexOf({"name":splitted[0], "socket": socket}) === -1)
 			bots.push({"name": splitted[0], "socket": socket});
-		else if (splitted[1] === "Supports" && supports.indexOf(splitted[0]) === -1)
+		else if (splitted[1] === "Supports" && supports.indexOf({"name":splitted[0], "socket": socket}) === -1)
 			supports.push({"name": splitted[0], "socket": socket});
 		else
-			socket.emit("error", "You are already in queue or chose an invalid role!");
+			socket.emit('inqueue', "");
 	});
 	socket.on('error', function(err) 
 	{
