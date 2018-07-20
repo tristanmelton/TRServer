@@ -9,7 +9,7 @@ var mids = [];
 var adcs = [];
 var supports = [];
 
-var gameMaker = setInterval(function() {
+/*var gameMaker = setInterval(function() {
 	if(tops.length > 1 && jungles.length > 1 && mids.length > 1 && adcs.length > 1 && supports.length > 1)
 	{
 		tops = shuffle(tops);
@@ -33,7 +33,7 @@ var gameMaker = setInterval(function() {
 		bots.splice(0, 2);
 		supports.splice(0, 2);
 	}
-}, 15*1000);
+}, 15*1000);*/
 
 
 app.get('/', function(req, res)
