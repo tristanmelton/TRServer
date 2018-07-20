@@ -23,6 +23,7 @@
         name = document.getElementById("sname").value;
         role = document.getElementById("rolelist").value;
 		socket.emit('enterqueue', name + " " + role);
+		window.alert("Sent packet: " + name + " " + role);
 		setTiming();
 		
 		return false;
