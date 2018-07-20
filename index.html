@@ -17,6 +17,7 @@
 	var name = "";
 	var role = "";
 	var totalSeconds = 0;
+	var keeper = 0;
 	var socket = io();
 	function senddata()
 	{
@@ -27,6 +28,15 @@
 		setTiming();
 		el = document.getElementById("qtxt").innerHTML = "IN QUEUE FOR: ";
 		return false;
+	}
+	function exitqueue()
+	{
+		clearInterval(keeper);
+		secondsLabel.innerHTML = 0;
+		minutesLabel.innerHTML = 0;
+		totalSeconds = 0;
+		var v = name + " " + role;
+		socket.emit('exitqueue', v);
 	}
 	socket.on('error', function(msg)
 	{
@@ -40,6 +50,10 @@
 	socket.on('inqueue', function(msg)
 	{
 		window.alert("You are already in queue!");
+	});
+	socket.on('nqueue', function(msg)
+	{
+		window.alert("You aren't in queue!");
 	});
 
 </script>
@@ -56,30 +70,15 @@
 		</select>
 	</p>
 	<p><button type="button" onclick="senddata(); return false;" name="queue">Queue Up!</button>
-		<button type="submit" name="exitqueue" onclick="queueinfo('exitqueue.php'); return false;">Exit Queue</button>
+		<button type="submit" name="exitqueue" onclick="exitqueue(); return false;">Exit Queue</button>
     </p>
   <p>Click queue up when you are ready!</p>
   <font size="8" id="qtxt" color="red"></font>
   <font size="8" color="red" id="minutes">00</font><font size="8" color="red">:</font><font size="8" color="red" id="seconds">00</font>
 <script>
-var minutesLabel = document.getElementById("minutes");
-var secondsLabel = document.getElementById("seconds");
-var totalSeconds = 0;
-
 function setTiming()
 {
-    setInterval(setTime, 1000);
-}
-function queueInfo(action) 
-{
-    document.getElementById("qtxt").innerHTML = "In Queue!  Waiting for:  ";
-    setInterval(setTime, 1000);
-    
-    var form = document.getElementById('queueform');
-    form.action = action;
-    
-    form.submit();
-	return false;
+    keeper = setInterval(setTime, 1000);
 }
 function setTime()
 {
@@ -98,8 +97,6 @@ function pad(val)
         return valString;
     }
 }
-
-
 </script>
 </body>
 </html>

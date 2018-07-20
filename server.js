@@ -10,7 +10,7 @@ var bots = [];
 var supports = [];
 
 var gameMaker = setInterval(function() {
-	if(tops.length > 1 && jungles.length > 1 && mids.length > 1 && adcs.length > 1 && supports.length > 1)
+	if(tops.length > 1 && jungles.length > 1 && mids.length > 1 && bots.length > 1 && supports.length > 1)
 	{
 		tops = shuffle(tops);
 		jungles = shuffle(jungles);
@@ -73,6 +73,50 @@ io.on('connection', function(socket)
 			console.log('Already in queue!!!');
 		}
 		console.log(tops.length);
+	});
+	socket.on('exitqueue', function(msg)
+	{
+		var splitted = msg.split(" ");
+		if(splitted[1] === "Tops")
+		{
+			var index = tops.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			if(index !== -1)
+				tops.splice(index, 1);
+			else
+				socket.emit('nqueue', "You aren't in queue!");
+		}
+		else if(splitted[1] === "Jungles")
+		{
+			var index = jungles.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			if(index !== -1)
+				jungles.splice(index, 1);
+			else
+				socket.emit('nqueue', "You aren't in queue!");
+		}
+		else if(splitted[1] === "Mids")
+		{
+			var index = mids.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			if(index !== -1)
+				mids.splice(index, 1);
+			else
+				socket.emit('nqueue', "You aren't in queue!");
+		}
+		else if(splitted[1] === "Bots")
+		{
+			var index = bots.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			if(index !== -1)
+				bots.splice(index, 1);
+			else
+				socket.emit('nqueue', "You aren't in queue!");
+		}
+		else if(splitted[1] === "Supports")
+		{
+			var index = supports.map(function(e) {return e.name;}).indexOf(splitted[0]);
+			if(index !== -1)
+				supports.splice(index, 1);
+			else
+				socket.emit('nqueue', "You aren't in queue!");
+		}
 	});
 	socket.on('error', function(err) 
 	{
