@@ -18,15 +18,21 @@
 	var role = "";
 	var totalSeconds = 0;
 	var socket = io();
-	function manipQueue()
-	{
-	}
-	$('form').submit(function()
+	$('queueform').submit(function()
 	{
 		socket.emit('chat message', $('#m').val());
 		$('#m').val('');
 		return false;
 	});
+	socket.on('error', function(msg)
+	{
+		window.alert(msg);
+    });
+	socket.on('teams', function(msg)
+	{
+		var teams = msg.split(":");
+		window.alert("Red team: " + teams[0] + "\nBlue team: " + teams[1]);
+    });
 
 </script>
 
